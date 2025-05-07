@@ -4,6 +4,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const signupForm = document.getElementById("signup-form");
   const messageDiv = document.getElementById("message");
 
+  // Utility function to escape HTML special characters
+  function escapeHtml(str) {
+    return str.replace(/[&<>"']/g, (match) => {
+      const escapeMap = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;',
+      };
+      return escapeMap[match];
+    });
+  }
+
   // Function to fetch activities from API
   async function fetchActivities() {
     try {
@@ -28,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="participants-section">
             <h5>Participants:</h5>
             <ul class="participants-list">
-              ${details.participants.length > 0 ? details.participants.map(participant => `<li>${participant}</li>`).join('') : '<li>No participants yet</li>'}
+              ${details.participants.length > 0 ? details.participants.map(participant => `<li>${escapeHtml(participant)}</li>`).join('') : '<li>No participants yet</li>'}
             </ul>
           </div>
         `;
